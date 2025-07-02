@@ -1015,46 +1015,31 @@ export default function Home() {
                 <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-purple-400/40 to-transparent"></div>
               </motion.div>
 
-              {/* Enhanced Action Buttons */}
+              {/* Enhanced Action Buttons - Part of this section removed as it was tied to the old Paddle modal */}
               <motion.div 
                 className="flex flex-col items-center space-y-4"
                 initial={fadeInUp.initial}
                 animate={pricingInView ? fadeInUp.animate : fadeInUp.initial}
                 transition={{ ...fadeInUp.transition, delay: 0.5 }}
-              >                <motion.button
-                  onClick={() => setIsModalOpen(true)}
+              >
+                {/* The button that called setIsModalOpen(true) and its accompanying text/link have been removed. */}
+                {/* If a new primary CTA is needed here, it should link to the /pricing page or open the contact form directly. */}
+                {/* For now, this section is left leaner. A general "Learn More" or "View Pricing Details" could be added. */}
+                 <motion.button
+                  onClick={() => scrollToSection('contact')} // Changed to scroll to contact for now
                   className="group relative bg-gradient-to-r from-[hsl(267,75%,56%)] to-[hsl(267,75%,66%)] hover:from-[hsl(267,75%,66%)] hover:to-[hsl(267,75%,76%)] text-white px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 lg:px-12 lg:py-5 rounded-2xl text-lg font-bold transition-all duration-300 hover:scale-[1.02] hover:shadow-xl border border-[hsl(267,75%,56%)]/50 w-full max-w-sm shadow-lg will-change-transform overflow-hidden"
                   whileHover={{ y: -2 }}
                   transition={{ duration: 0.15 }}
                 >
-                  {/* Subtle shimmer effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-                  
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    Get Now
+                    Contact Us
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
                 </motion.button>
-
-                <motion.div 
-                  className="flex items-center space-x-2 text-xs text-gray-400"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.7, duration: 0.6 }}
-                >
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="font-medium">4-day delivery • Tech support included</span>
-                </motion.div>
-
-                <motion.button 
-                  onClick={() => scrollToSection('problem')}
-                  className="group text-purple-300 hover:text-purple-200 font-medium text-sm flex items-center space-x-2 transition-all duration-200 hover:scale-105 py-3 px-4 rounded-xl hover:bg-white/5 will-change-transform"
-                  whileHover={{ y: -1 }}
-                  transition={{ duration: 0.12 }}
-                >
-                  <span>Why do you need this website?</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
-                </motion.button>
+                <p className="text-sm text-gray-400 mt-2">
+                  Or visit our <Link href="/pricing" className="text-purple-400 hover:text-purple-300 underline">pricing page</Link> for more details.
+                </p>
               </motion.div>            </div>
           </motion.div>
         </div>
