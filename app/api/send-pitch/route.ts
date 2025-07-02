@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     const videoBuffer = Buffer.from(await videoFile.arrayBuffer());
 
     // Render the React email template to HTML
-    const emailHtml = render(
+    const emailHtml = await render(
       PitchEmailTemplate({
         emailBody,
         gif1Src: `${process.env.NEXT_PUBLIC_APP_URL || ''}${gif1Src}`, // Prepend base URL
