@@ -11,7 +11,7 @@ import MobileMotion from '../components/MobileMotion';
 import ViewportOptimizer from '../components/ViewportOptimizer';
 import ContactFormModal from '../components/ContactFormModal';
 import { usePerformanceMonitoring, useDeviceOptimization } from '../hooks/usePerformance';
-import { useCheckout } from '../components/PaddleProvider';
+// Removed: import { useCheckout } from '../components/PaddleProvider';
 import { 
   Shield, 
   Award, 
@@ -88,18 +88,19 @@ export default function Home() {
     }
   }), [isClientMobile]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Removed: const [isModalOpen, setIsModalOpen] = useState(false);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const [showNavBackground, setShowNavBackground] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [viewportHeight, setViewportHeight] = useState('100vh');
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    requests: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false); // Added for loading state
-  const [submissionError, setSubmissionError] = useState<string | null>(null); // Added for error message
+  // Removed formData, isSubmitting, submissionError as they were for the Paddle modal
+  // const [formData, setFormData] = useState({
+  //   fullName: '',
+  //   email: '',
+  //   requests: ''
+  // });
+  // const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   // Ref for positioning the contact form modal
   const emailButtonRef = useRef<HTMLButtonElement>(null);
@@ -109,8 +110,8 @@ export default function Home() {
   usePerformanceMonitoring();
   useDeviceOptimization();
 
-  // Initialize Paddle checkout
-  const { openCheckout, isLoaded: paddleLoaded } = useCheckout();
+  // Removed: Initialize Paddle checkout
+  // const { openCheckout, isLoaded: paddleLoaded } = useCheckout();
 
   // Memoized device detection for better performance
   const isIOSDevice = useMemo(() => {
@@ -190,56 +191,9 @@ export default function Home() {
   const [contactRef, contactInView] = useOptimizedScrollAnimation(isClientMobile, 0.1);
   const [meetingRef, meetingInView] = useOptimizedScrollAnimation(isClientMobile, 0.1);
 
-  // Memoized form handler
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  }, []);
-
-  // Memoized submit handler with Paddle integration
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmissionError(null);
-
-    try {
-      // Validate form data
-      if (!formData.fullName.trim() || !formData.email.trim()) {
-        setSubmissionError('Please fill in all required fields.');
-        return;
-      }
-
-      // Check if Paddle is loaded
-      if (!paddleLoaded) {
-        setSubmissionError('Payment system is loading. Please wait a moment and try again.');
-        return;
-      }
-
-      // Open Paddle checkout
-      await openCheckout({
-        fullName: formData.fullName,
-        email: formData.email,
-        requests: formData.requests,
-        company: '', // Could add company field if needed
-        phone: '', // Could add phone field if needed
-      });
-
-      // Don't redirect here - Paddle will handle the flow
-      console.log('Paddle checkout opened successfully');
-
-    } catch (error) {
-      console.error('Checkout error:', error);
-      setSubmissionError(
-        error instanceof Error 
-          ? error.message 
-          : 'Failed to open checkout. Please try again.'
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [formData, paddleLoaded, openCheckout]);
+  // Removed handleInputChange and handleSubmit as they were for the Paddle modal
+  // const handleInputChange = useCallback(...)
+  // const handleSubmit = useCallback(...)
 
   // Memoized scroll functions
   const scrollToSection = useCallback((sectionId: string) => {
@@ -1345,167 +1299,9 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <motion.div 
-            className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl max-w-md w-full border border-white/20 overflow-y-auto max-h-[calc(100vh-theme(spacing.8))]"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold">Final Step: Project Details</h3>
-              <button 
-                onClick={() => setIsModalOpen(false)}
-                className="text-gray-400 hover:text-white"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Full Name *</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  required
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-[hsl(267,75%,56%)] text-white"
-                  placeholder="Enter your full name"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-2">Email Address *</label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-[hsl(267,75%,56%)] text-white"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-2">Optional Changes or Requests</label>
-                <textarea
-                  name="requests"
-                  value={formData.requests}
-                  onChange={handleInputChange}
-                  rows={4}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-[hsl(267,75%,56%)] text-white resize-none"
-                  placeholder="Any specific requests or changes you'd like..."
-                />
-              </div>
-              
-              {submissionError && (
-                <p className="text-sm text-red-400 text-center bg-red-500/10 p-3 rounded-md border border-red-400/30">
-                  {submissionError}
-                </p>
-              )}
+      {/* Removed the two Paddle-related modals previously controlled by isModalOpen and handleSubmit */}
 
-              <p className="text-sm text-gray-300 text-center">
-                Your new website will be live at <strong>cashforpropertiesnyc.com</strong> in 4 days. 
-                We&apos;ll email your brand assets and login details upon completion.
-              </p>
-              
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-[hsl(267,75%,56%)] hover:bg-[hsl(267,75%,66%)] text-white py-4 rounded-lg text-lg font-bold transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
-              >
-                {isSubmitting ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                  </>
-                ) : (
-                  'Proceed to Payment - $3,950'
-                )}
-              </button>
-            </form>
-          </motion.div>        </div>      )}      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-xl p-8 max-w-md w-full relative overflow-y-auto max-h-[calc(100vh-theme(spacing.8))]"
-          >
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">
-              Claim Your New Website
-            </h3>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                  className="w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="John Doe"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="john@example.com"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Special Requests (Optional)
-                </label>
-                <textarea
-                  value={formData.requests}
-                  onChange={(e) => setFormData({...formData, requests: e.target.value})}
-                  className="w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent h-24 resize-none"
-                  placeholder="Any specific requirements or preferences..."
-                />
-              </div>
-              
-              <p className="text-sm text-gray-300 text-center">
-                Your new website will be live at <strong>cashforpropertiesnyc.com</strong> in 4 days. 
-                We&apos;ll email your brand assets and login details upon completion.
-              </p>
-              
-              <button
-                type="submit"
-                className="w-full bg-[hsl(267,75%,56%)] hover:bg-[hsl(267,75%,66%)] text-white py-4 rounded-lg text-lg font-bold transition-all duration-300 hover:scale-105"
-              >
-                Proceed to Payment - $3,950
-              </button>
-            </form>
-          </motion.div>
-        </div>      )}      {/* Contact Form Modal */}
+      {/* Contact Form Modal */}
       <ContactFormModal 
         isOpen={isContactFormOpen} 
         onClose={() => setIsContactFormOpen(false)} 
