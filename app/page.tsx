@@ -911,59 +911,9 @@ export default function Home() {
                   </motion.div>
                 ))}
               </motion.div>
-            </div>            {/* Professional Contact Section */}
-            <motion.div 
-              className="mb-6 mx-0 px-4 py-3 bg-gradient-to-r from-slate-900/95 via-slate-800/90 to-slate-900/95 border border-slate-500/30 rounded-2xl shadow-2xl backdrop-blur-lg relative overflow-hidden group"
-              initial={fadeInUp.initial}
-              animate={pricingInView ? fadeInUp.animate : fadeInUp.initial}
-              transition={{ ...fadeInUp.transition, delay: 0.3 }}
-            >
-              {/* Enhanced background effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(56,189,248,0.1),transparent)] opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
-              
-              {/* Content */}
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4 relative z-10">
-                {/* Left side: Professional discussion text */}
-                <div className="text-center md:text-left flex-1">
-                  <h3 className="text-base font-semibold text-white">
-                    Want to discuss first?
-                  </h3>
-                  {/* <p className="text-slate-300 text-sm opacity-90">
-                    Let's connect and bring your vision to life
-                  </p> */}
-                </div>
-                
-                {/* Right side: Professional action buttons */}
-                <div className="flex flex-row items-center justify-center sm:justify-end gap-2 flex-shrink-0">
-                  <motion.button 
-                    aria-label="Schedule a Call"
-                    className="group relative flex items-center justify-center sm:justify-start sm:space-x-2 text-white bg-gradient-to-r from-blue-600/80 to-blue-700/80 hover:from-blue-500/90 hover:to-blue-600/90 p-2.5 sm:px-4 sm:py-2.5 rounded-xl border border-blue-400/30 hover:border-blue-300/50 transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-blue-500/20 will-change-transform backdrop-blur-sm w-auto"
-                    whileHover={{ y: -2, scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-blue-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <Phone className="w-5 h-5 sm:w-4 sm:h-4 text-blue-200 group-hover:text-blue-100 transition-colors duration-200 relative z-10" strokeWidth={2} />
-                    <span className="font-semibold text-sm relative z-10 hidden sm:inline">Schedule Call</span>
-                  </motion.button>
-                    <span className="text-slate-400 text-xs font-medium mx-1 sm:my-0">or</span>
-                    <motion.button 
-                    aria-label="Send an Email"
-                    onClick={() => setIsContactFormOpen(true)}
-                    className="group relative flex items-center justify-center sm:justify-start sm:space-x-2 text-white bg-gradient-to-r from-slate-700/80 to-slate-800/80 hover:from-slate-600/90 hover:to-slate-700/90 p-2.5 sm:px-4 sm:py-2.5 rounded-xl border border-slate-400/30 hover:border-slate-300/50 transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-slate-500/20 will-change-transform backdrop-blur-sm w-auto"
-                    whileHover={{ y: -2, scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-400/10 to-slate-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <Mail className="w-5 h-5 sm:w-4 sm:h-4 text-slate-300 group-hover:text-slate-200 transition-colors duration-200 relative z-10" strokeWidth={2} />
-                    <span className="font-semibold text-sm relative z-10 hidden sm:inline">Send Email</span>
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>{/* Refined Pricing & CTA Section */}
-            <div className="space-y-6 relative z-10">
+            </div>            {/* Removed "Professional Contact Section" aka "Want to discuss first?" section */}
+            {/* Refined Pricing & CTA Section */}
+            <div className="space-y-6 relative z-10 mt-6"> {/* Added mt-6 for spacing after removal */}
               {/* Refined Pricing & Guarantee Row */}
               <motion.div 
                 className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5"
