@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useCheckout } from '../../components/PaddleProvider';
+// Removed: import { useCheckout } from '../../components/PaddleProvider';
 import { 
   CheckCircle,
   Star,
@@ -11,22 +11,20 @@ import {
   Shield,
   Award,
   Zap,
-  Gift
+  Gift,
+  Mail, // Added for Email Now button
+  Phone, // Added for Schedule Call button (using Phone as a generic icon for now)
+  X // Added for close button
 } from 'lucide-react';
+import ContactFormModal from '@/components/ContactFormModal'; // Import ContactFormModal
 
 export default function PricingPage() {
+  const [isOptionsModalOpen, setIsOptionsModalOpen] = useState(false); // New state for options modal
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    company: '',
-    requests: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Removed unused state variables: formData, isSubmitting, error
 
-  // Initialize Paddle checkout
-  const { openCheckout, isLoaded: paddleLoaded } = useCheckout();
+  // Removed: Initialize Paddle checkout
+  // const { openCheckout, isLoaded: paddleLoaded } = useCheckout();
 
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
@@ -45,28 +43,20 @@ export default function PricingPage() {
     }
   };
 
-  const handleGetStarted = async () => {
-    if (!paddleLoaded) {
-      setError('Payment system is loading. Please wait...');
-      return;
-    }
+  // Removed: const handleGetStarted = async () => { ... }
 
-    setIsSubmitting(true);
-    setError(null);
+  const handleGetNowClick = () => {
+    setIsOptionsModalOpen(true);
+  };
 
-    try {
-      await openCheckout({
-        fullName: formData.fullName || 'Customer',
-        email: formData.email || '',
-        requests: formData.requests || 'Started from pricing page',
-        company: formData.company || '',
-        phone: '',
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to open checkout');
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleEmailNow = () => {
+    setIsOptionsModalOpen(false);
+    setIsContactFormOpen(true);
+  };
+
+  const handleScheduleCall = () => {
+    setIsOptionsModalOpen(false);
+    window.open('https://calendly.com/arsalmaab/30min', '_blank');
   };
 
   return (
@@ -237,11 +227,11 @@ export default function PricingPage() {
               {/* CTA Button */}
               <motion.div variants={fadeInUp} className="text-center">
                 <button
-                  onClick={handleGetStarted}
+                  onClick={handleGetNowClick}
                   className="group relative inline-flex items-center justify-center px-12 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   <span className="relative z-10 flex items-center">
-                    Get Started Now
+                    Get Now
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
@@ -319,10 +309,10 @@ export default function PricingPage() {
                 pitch deck services to win deals and secure funding.
               </p>
               <button
-                onClick={handleGetStarted}
+                onClick={handleGetNowClick}
                 className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
               >
-                Start Your Project Today
+                Get Now
                 <ArrowRight className="w-5 h-5 ml-2" />
               </button>
             </div>
@@ -330,31 +320,55 @@ export default function PricingPage() {
         </motion.div>
       </div>
 
-      {/* Contact Form Modal - Placeholder for now */}
-      {isContactFormOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-white mb-4">Get Started</h3>
-            <p className="text-gray-300 mb-6">
-              Ready to create your winning pitch deck? Contact us to begin your project.
-            </p>
-            <div className="flex space-x-4">
+      {/* Options Modal */}
+      {isOptionsModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 border border-slate-700 rounded-2xl shadow-2xl p-8 max-w-md w-full relative"
+          >
+            {/* Background Effects */}
+            <div className="absolute -top-16 -left-16 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl animate-pulse"></div>
+            <div className="absolute -bottom-16 -right-16 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl animate-pulse animation-delay-2000"></div>
+
+            <button
+              onClick={() => setIsOptionsModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <X className="w-6 h-6" /> {/* Replaced CheckCircle with X icon */}
+            </button>
+            <h3 className="text-2xl font-bold text-white mb-6 text-center">Choose Your Next Step</h3>
+            <div className="space-y-4">
               <button
-                onClick={() => setIsContactFormOpen(false)}
-                className="flex-1 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                onClick={handleEmailNow}
+                className="w-full group relative inline-flex items-center justify-center px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
               >
-                Close
+                <Mail className="w-5 h-5 mr-3" />
+                Email Now
               </button>
-              <a
-                href="mailto:support@vorve.tech?subject=Pitch Deck Project Inquiry"
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-center"
+              <button
+                onClick={handleScheduleCall}
+                className="w-full group relative inline-flex items-center justify-center px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-pink-500 to-orange-500 rounded-lg hover:from-pink-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
               >
-                Contact Us
-              </a>
+                <Phone className="w-5 h-5 mr-3" />
+                Schedule a Call
+              </button>
             </div>
-          </div>
+             <p className="text-xs text-gray-500 mt-6 text-center">
+              Select an option to proceed with your project.
+            </p>
+          </motion.div>
         </div>
       )}
+
+      {/* Contact Form Modal */}
+      <ContactFormModal
+        isOpen={isContactFormOpen}
+        onClose={() => setIsContactFormOpen(false)}
+      />
     </div>
   );
 }
