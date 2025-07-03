@@ -16,200 +16,145 @@ import {
 } from '@react-email/components';
 
 interface PitchEmailTemplateProps {
-  receiverName?: string; // Optional, in case you want to personalize
   emailBody: string;
-  gif1Src: string;
-  gif2Src: string;
+  gifSrc: string; // Changed from gif1Src, gif2Src to single gifSrc
   ctaLink: string;
 }
 
+// Basic styles - keeping it minimal to avoid promotion filters
+// Email client support for CSS is tricky; inline styles are generally safest.
+const styles = {
+  body: {
+    backgroundColor: '#ffffff', // Plain white background
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+    margin: '0 auto',
+    padding: '20px 0 48px',
+    width: '100%',
+    maxWidth: '600px', // Common width for emails
+  },
+  container: {
+    backgroundColor: '#ffffff',
+    padding: '0px', // No extra padding for the main container around content
+  },
+  gif: {
+    maxWidth: '100%',
+    height: 'auto', // Maintain aspect ratio
+    margin: '0 auto 20px auto', // Centered, with space below
+    display: 'block',
+    border: '1px solid #eaeaea', // Subtle border
+    borderRadius: '4px',
+  },
+  text: {
+    fontSize: '16px',
+    lineHeight: '1.6', // 26px line height for 16px font
+    color: '#333333', // Dark grey for text, not pure black
+    padding: '0 20px', // Padding for text sections
+  },
+  paragraphGroup: {
+    marginBottom: '20px',
+  },
+  button: {
+    backgroundColor: '#007bff', // A standard blue
+    borderRadius: '5px',
+    color: '#ffffff',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    textDecoration: 'none',
+    textAlign: 'center' as const,
+    padding: '12px 25px',
+    display: 'inline-block', // Or 'block' if you want it full width
+  },
+  buttonContainer: {
+    textAlign: 'center' as const,
+    padding: '20px 0',
+  },
+  hr: {
+    borderColor: '#cccccc',
+    margin: '28px 0',
+    borderTopWidth: '1px',
+  },
+  footerText: {
+    color: '#888888',
+    fontSize: '12px',
+    lineHeight: '1.4',
+    textAlign: 'center' as const,
+    padding: '0 20px',
+  },
+  signatureName: {
+    fontWeight: 'bold' as 'bold',
+  }
+};
+
 export const PitchEmailTemplate: React.FC<PitchEmailTemplateProps> = ({
-  receiverName,
   emailBody,
-  gif1Src,
-  gif2Src,
+  gifSrc,
   ctaLink,
 }) => (
   <Html>
     <Head>
+      {/* Standard meta tags for email */}
+      <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <Font
-        fontFamily="Inter"
-        fallbackFontFamily="Helvetica"
+        fontFamily="Roboto" // Using a more common web font
+        fallbackFontFamily="Arial"
         webFont={{
-          url: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
+          url: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap',
           format: 'woff2',
         }}
         fontWeight={400}
         fontStyle="normal"
       />
     </Head>
-    <Preview>A Special Website Proposal For You!</Preview>
-    <Container
-      style={{
-        backgroundColor: '#f8fafc',
-        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        padding: '20px',
-        width: '100%',
-      }}
-    >
-      <Section
-        style={{
-          backgroundColor: '#ffffff',
-          borderRadius: '12px',
-          padding: '32px',
-          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-          maxWidth: '680px', // Adjusted for potentially wider content
-          margin: '0 auto',
-        }}
-      >
-        {receiverName && (
-          <Heading
-            style={{
-              fontSize: '28px',
-              fontWeight: 'bold',
-              color: '#1e293b',
-              marginBottom: '16px',
-              textAlign: 'center',
-            }}
-          >
-            Hello {receiverName}, A Special Proposal For You!
-          </Heading>
-        )}
-        {!receiverName && (
-          <Heading
-            style={{
-              fontSize: '28px',
-              fontWeight: 'bold',
-              color: '#1e293b',
-              marginBottom: '16px',
-              textAlign: 'center',
-            }}
-          >
-            A Special Website Proposal For You!
-          </Heading>
-        )}
+    {/* Preview text for email clients */}
+    <Preview>A quick look at your new website design...</Preview>
 
-        {/* Side-by-side GIFs */}
-        <Section style={{ marginBottom: '10px', textAlign: 'center' }}>
-          <Row>
-            <Column align="center" style={{ width: '50%', paddingRight: '5px' }}>
-              <Img
-                src={gif1Src}
-                alt="Old Website GIF"
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '400px', /* Adjust as needed for mobile aspect ratio */
-                  height: 'auto',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                }}
-              />
-            </Column>
-            <Column align="center" style={{ width: '50%', paddingLeft: '5px' }}>
-              <Img
-                src={gif2Src}
-                alt="New Website GIF"
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '400px', /* Adjust as needed for mobile aspect ratio */
-                  height: 'auto',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                }}
-              />
-            </Column>
-          </Row>
-        </Section>
-
-        {/*
-        <Text
-          style={{
-            fontSize: '13px',
-            color: '#6b7280',
-            textAlign: 'center',
-            fontStyle: 'italic',
-            marginBottom: '24px',
-          }}
-        >
-          A video walkthrough of your new website is also attached.
-        </Text>
-        */}
-
-        <Hr style={{ margin: '24px 0', borderColor: '#e2e8f0' }} />
+    <Section style={styles.body}>
+      <Container style={styles.container}>
+        {/* Single GIF - First Element */}
+        <Img
+          src={gifSrc}
+          alt="Website Comparison GIF"
+          style={styles.gif}
+        />
 
         {/* Main Email Content */}
-        <Text
-          style={{
-            fontSize: '16px',
-            color: '#374151',
-            lineHeight: '1.7',
-            marginBottom: '24px',
-            whiteSpace: 'pre-wrap', // To respect newlines from textarea
-          }}
-        >
+        <Section style={styles.paragraphGroup}>
           {emailBody.split('\n').map((line, index) => (
-            <span key={index}>
-              {line}
-              <br />
-            </span>
+            <Text key={index} style={styles.text}>
+              {line || <br />} {/* Render a <br /> for empty lines to maintain spacing */}
+            </Text>
           ))}
-        </Text>
+        </Section>
 
-        <Section style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <Button
-            href={ctaLink}
-            style={{
-              backgroundColor: '#2563eb', // Blue color, adjust as needed
-              color: '#ffffff',
-              padding: '14px 24px',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: '600',
-              textDecoration: 'none',
-              display: 'inline-block',
-            }}
-          >
-            Click here to Get Your New Website Now
+        {/* CTA Button */}
+        <Section style={styles.buttonContainer}>
+          <Button style={styles.button} href={ctaLink}>
+            Get Your New Website Now
           </Button>
         </Section>
 
-        <Text
-          style={{
-            fontSize: '16px',
-            color: '#374151',
-            lineHeight: '1.6',
-            marginBottom: '16px',
-          }}
-        >
-          Got questions? Reply to this email.
+        <Text style={{...styles.text, marginBottom: '20px'}}>
+          Got questions? Just reply to this email. I&apos;m here to help!
         </Text>
 
-        <Hr style={{ margin: '32px 0', borderColor: '#e2e8f0' }} />
+        <Hr style={styles.hr} />
 
-        <Text
-          style={{
-            fontSize: '14px',
-            color: '#6b7280',
-            textAlign: 'center',
-          }}
-        >
-          Best regards,
-          <br />
-          Arslan | Digital Creator
+        <Text style={{...styles.text, ...styles.signatureName}}>
+          Arslan
         </Text>
-      </Section>
+        <Text style={{...styles.text, fontSize: '14px', color: '#555555'}}>
+          Digital Creator
+        </Text>
 
-      <Text
-        style={{
-          fontSize: '12px',
-          color: '#9ca3af',
-          textAlign: 'center',
-          marginTop: '20px',
-        }}
-      >
-        Vorve | Your Partner in Digital Excellence
-      </Text>
-    </Container>
+        {/* Optional: Minimal footer if needed */}
+        {/*
+        <Text style={styles.footerText}>
+          Vorve | Your Partner in Digital Excellence
+        </Text>
+        */}
+      </Container>
+    </Section>
   </Html>
 );
 

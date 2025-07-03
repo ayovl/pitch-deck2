@@ -40,41 +40,31 @@ export async function POST(req: NextRequest) {
     const subject = formData.get('subject') as string;
     const emailBody = formData.get('emailBody') as string;
     const ctaLink = formData.get('ctaLink') as string;
-    const gif1File = formData.get('gif1') as File | null;
-    const gif2File = formData.get('gif2') as File | null;
+    const gifFile = formData.get('gifFile') as File | null; // Changed from gif1File, gif2File
 
-    if (!receiverEmail || !subject || !emailBody || !ctaLink || !gif1File || !gif2File ) {
+    if (!receiverEmail || !subject || !emailBody || !ctaLink || !gifFile ) { // Check for single gifFile
       return NextResponse.json({ error: 'Missing required fields or files' }, { status: 400 });
     }
 
     // Prepare attachments for Resend
     const attachments = [];
-    const gif1Cid = 'gif1_comparison.gif'; // Unique CID for the first GIF
-    const gif2Cid = 'gif2_comparison.gif'; // Unique CID for the second GIF
+    const gifCid = 'comparison_gif.gif'; // Single CID
 
-    if (gif1File) {
-      const gif1Buffer = Buffer.from(await gif1File.arrayBuffer());
+    if (gifFile) {
+      const gifBuffer = Buffer.from(await gifFile.arrayBuffer());
       attachments.push({
-        filename: gif1File.name || 'image1.gif',
-        content: gif1Buffer,
-        cid: gif1Cid,
+        filename: gifFile.name || 'comparison.gif',
+        content: gifBuffer,
+        cid: gifCid,
       });
     }
-    if (gif2File) {
-      const gif2Buffer = Buffer.from(await gif2File.arrayBuffer());
-      attachments.push({
-        filename: gif2File.name || 'image2.gif',
-        content: gif2Buffer,
-        cid: gif2Cid,
-      });
-    }
+    // Removed logic for gif2File
 
     // Render the React email template to HTML
     const emailHtml = await render(
       PitchEmailTemplate({
         emailBody,
-        gif1Src: `cid:${gif1Cid}`, // Use CID for src
-        gif2Src: `cid:${gif2Cid}`, // Use CID for src
+        gifSrc: `cid:${gifCid}`, // Pass single gifSrc with its CID
         ctaLink,
         // receiverName: can be extracted if you add a field for it
       })
@@ -84,8 +74,7 @@ export async function POST(req: NextRequest) {
     console.log('From Email:', `Arslan from Vorve <${process.env.SENDER_EMAIL || 'noreply@vorve.tech'}>`);
     console.log('To Email:', receiverEmail);
     console.log('Subject:', subject);
-    console.log('GIF1 CID:', gif1Cid);
-    console.log('GIF2 CID:', gif2Cid);
+    console.log('GIF CID:', gifCid); // Log single GIF CID
 
 
     const { data, error } = await resend.emails.send({

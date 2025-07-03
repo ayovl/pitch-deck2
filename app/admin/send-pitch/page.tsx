@@ -11,8 +11,7 @@ Hi, I'm Arslan, a digital creator.`;
 const AdminSendPitchPage = () => {
   const [receiverEmail, setReceiverEmail] = useState('');
   const [subject, setSubject] = useState('A Special Website Proposal For You!');
-  const [gif1, setGif1] = useState<File | null>(null);
-  const [gif2, setGif2] = useState<File | null>(null);
+  const [gifFile, setGifFile] = useState<File | null>(null); // Changed from gif1, gif2 to gifFile
   // const [video, setVideo] = useState<File | null>(null); // Removed video state
   const [emailBody, setEmailBody] = useState(defaultEmailBody);
   const [ctaLink, setCtaLink] = useState('https://your-portfolio-or-contact-link.com'); // TODO: Update this link
@@ -24,8 +23,8 @@ const AdminSendPitchPage = () => {
     setIsLoading(true);
     setStatusMessage('');
 
-    if (!gif1 || !gif2) { // Removed video from check
-      setStatusMessage('Please upload both GIFs.');
+    if (!gifFile) { // Check for single gifFile
+      setStatusMessage('Please upload the comparison GIF.');
       setIsLoading(false);
       return;
     }
@@ -35,8 +34,7 @@ const AdminSendPitchPage = () => {
     formData.append('subject', subject);
     formData.append('emailBody', emailBody);
     formData.append('ctaLink', ctaLink);
-    formData.append('gif1', gif1);
-    formData.append('gif2', gif2);
+    formData.append('gifFile', gifFile); // Changed from gif1, gif2 to gifFile
     // formData.append('video', video); // Removed video from FormData
 
     try {
@@ -54,8 +52,7 @@ const AdminSendPitchPage = () => {
         // setSubject('A Special Website Proposal For You!');
         // setEmailBody(defaultEmailBody);
         // setCtaLink('https://your-portfolio-or-contact-link.com');
-        // setGif1(null);
-        // setGif2(null);
+        // setGifFile(null); // Changed from gif1, gif2
         // // setVideo(null); // Video state removed
         // (event.target as HTMLFormElement).reset(); // Resets file inputs
       } else {
@@ -123,28 +120,30 @@ const AdminSendPitchPage = () => {
         </div>
 
         <div>
-          <label htmlFor="gif1" className={labelStyle}>GIF 1 (e.g., Old Website):</label>
+          <label htmlFor="gifFile" className={labelStyle}>Comparison GIF (Old vs. New):</label>
           <input
             type="file"
-            id="gif1"
+            id="gifFile"
             accept="image/gif"
-            onChange={(e) => setGif1(e.target.files ? e.target.files[0] : null)}
+            onChange={(e) => setGifFile(e.target.files ? e.target.files[0] : null)}
             required
             className={inputStyle}
           />
         </div>
 
+        {/*
         <div>
           <label htmlFor="gif2" className={labelStyle}>GIF 2 (e.g., New Website):</label>
           <input
             type="file"
             id="gif2"
             accept="image/gif"
-            onChange={(e) => setGif2(e.target.files ? e.target.files[0] : null)}
+            // onChange={(e) => setGif2(e.target.files ? e.target.files[0] : null)} // Combined into one
             required
             className={inputStyle}
           />
         </div>
+        */}
 
         {/*
         <div>
