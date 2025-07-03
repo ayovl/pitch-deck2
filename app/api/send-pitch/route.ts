@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
           content: videoBuffer,
         },
       ],
-      reply_to: process.env.REPLY_TO_EMAIL || 'arsalmaab@gmail.com',
+      replyTo: process.env.REPLY_TO_EMAIL || 'arsalmaab@gmail.com',
     });
 
     if (error) {
