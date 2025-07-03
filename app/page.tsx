@@ -983,7 +983,7 @@ export default function Home() {
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    Contact Us
+                    Contact Now
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
                 </motion.button>
