@@ -121,6 +121,7 @@ export const PitchEmailTemplate: React.FC<PitchEmailTemplateProps> = ({
           </Row>
         </Section>
 
+        {/*
         <Text
           style={{
             fontSize: '13px',
@@ -132,6 +133,7 @@ export const PitchEmailTemplate: React.FC<PitchEmailTemplateProps> = ({
         >
           A video walkthrough of your new website is also attached.
         </Text>
+        */}
 
         <Hr style={{ margin: '24px 0', borderColor: '#e2e8f0' }} />
 

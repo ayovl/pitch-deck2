@@ -13,7 +13,7 @@ const AdminSendPitchPage = () => {
   const [subject, setSubject] = useState('A Special Website Proposal For You!');
   const [gif1, setGif1] = useState<File | null>(null);
   const [gif2, setGif2] = useState<File | null>(null);
-  const [video, setVideo] = useState<File | null>(null);
+  // const [video, setVideo] = useState<File | null>(null); // Removed video state
   const [emailBody, setEmailBody] = useState(defaultEmailBody);
   const [ctaLink, setCtaLink] = useState('https://your-portfolio-or-contact-link.com'); // TODO: Update this link
   const [statusMessage, setStatusMessage] = useState('');
@@ -24,8 +24,8 @@ const AdminSendPitchPage = () => {
     setIsLoading(true);
     setStatusMessage('');
 
-    if (!gif1 || !gif2 || !video) {
-      setStatusMessage('Please upload both GIFs and the video.');
+    if (!gif1 || !gif2) { // Removed video from check
+      setStatusMessage('Please upload both GIFs.');
       setIsLoading(false);
       return;
     }
@@ -37,7 +37,7 @@ const AdminSendPitchPage = () => {
     formData.append('ctaLink', ctaLink);
     formData.append('gif1', gif1);
     formData.append('gif2', gif2);
-    formData.append('video', video);
+    // formData.append('video', video); // Removed video from FormData
 
     try {
       const response = await fetch('/api/send-pitch', {
@@ -56,7 +56,7 @@ const AdminSendPitchPage = () => {
         // setCtaLink('https://your-portfolio-or-contact-link.com');
         // setGif1(null);
         // setGif2(null);
-        // setVideo(null);
+        // // setVideo(null); // Video state removed
         // (event.target as HTMLFormElement).reset(); // Resets file inputs
       } else {
         setStatusMessage(`Error: ${result.error || 'Failed to send email. Check console.'}`);
@@ -146,17 +146,19 @@ const AdminSendPitchPage = () => {
           />
         </div>
 
+        {/*
         <div>
           <label htmlFor="video" className={labelStyle}>Video Walkthrough (e.g., .mp4, .mov):</label>
           <input
             type="file"
             id="video"
             accept="video/*"
-            onChange={(e) => setVideo(e.target.files ? e.target.files[0] : null)}
-            required
+            // onChange={(e) => setVideo(e.target.files ? e.target.files[0] : null)} // Video state removed
+            // required // No longer required
             className={inputStyle}
           />
         </div>
+        */}
 
         <div>
           <label htmlFor="ctaLink" className={labelStyle}>CTA Button Link:</label>

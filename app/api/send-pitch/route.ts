@@ -42,9 +42,9 @@ export async function POST(req: NextRequest) {
     const ctaLink = formData.get('ctaLink') as string;
     const gif1File = formData.get('gif1') as File | null;
     const gif2File = formData.get('gif2') as File | null;
-    const videoFile = formData.get('video') as File | null;
+    // const videoFile = formData.get('video') as File | null; // Video file removed
 
-    if (!receiverEmail || !subject || !emailBody || !ctaLink || !gif1File || !gif2File || !videoFile) {
+    if (!receiverEmail || !subject || !emailBody || !ctaLink || !gif1File || !gif2File ) { // videoFile removed from check
       return NextResponse.json({ error: 'Missing required fields or files' }, { status: 400 });
     }
 
@@ -55,8 +55,8 @@ export async function POST(req: NextRequest) {
     const gif1Src = await saveFileAndGetUrl(gif1File, 'gif1');
     const gif2Src = await saveFileAndGetUrl(gif2File, 'gif2');
 
-    // Prepare video attachment
-    const videoBuffer = Buffer.from(await videoFile.arrayBuffer());
+    // // Prepare video attachment - REMOVED
+    // const videoBuffer = Buffer.from(await videoFile.arrayBuffer());
 
     // Render the React email template to HTML
     const emailHtml = await render(
@@ -82,12 +82,12 @@ export async function POST(req: NextRequest) {
       to: [receiverEmail],
       subject: subject,
       html: emailHtml,
-      attachments: [
-        {
-          filename: videoFile.name,
-          content: videoBuffer,
-        },
-      ],
+      // attachments: [ // Attachments array removed
+      //   {
+      //     filename: videoFile.name,
+      //     content: videoBuffer,
+      //   },
+      // ],
       replyTo: process.env.REPLY_TO_EMAIL || 'arsalmaab@gmail.com',
     });
 
