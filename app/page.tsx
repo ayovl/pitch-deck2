@@ -998,7 +998,6 @@ export default function Home() {
                 animate={pricingInView ? fadeInUp.animate : fadeInUp.initial}
                 transition={{ ...fadeInUp.transition, delay: 0.5 }}
               >                <motion.button
-                  onClick={() => setIsModalOpen(true)}
                   className="group relative bg-gradient-to-r from-[hsl(267,75%,56%)] to-[hsl(267,75%,66%)] hover:from-[hsl(267,75%,66%)] hover:to-[hsl(267,75%,76%)] text-white px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 lg:px-12 lg:py-5 rounded-2xl text-lg font-bold transition-all duration-300 hover:scale-[1.02] hover:shadow-xl border border-[hsl(267,75%,56%)]/50 w-full max-w-sm shadow-lg will-change-transform overflow-hidden"
                   whileHover={{ y: -2 }}
                   transition={{ duration: 0.15 }}
