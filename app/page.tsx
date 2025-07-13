@@ -1466,9 +1466,9 @@ export default function Home() {
         onClose={() => setIsContactFormOpen(false)} 
         triggerRef={scheduleCallButtonRef}
         title={contactFormContext === 'website' ? 'Get Your Website' : 'Get in Touch'}
-        subtitle={contactFormContext === 'website' ? 'Tell us about your business and get a stunning website in just 4 days' : 'Ready to start your project? Let\'s discuss your needs.'}
-        messagePlaceholder={contactFormContext === 'website' ? 'Tell us about your business, target audience, and any specific features you need...' : 'Tell us about your project...'}
-        messageLabel={contactFormContext === 'website' ? 'About Your Business' : 'Message'}
+        subtitle={contactFormContext === 'website' ? 'Let us know if you want any changes to the website.' : 'Ready to start your project? Let\'s discuss your needs.'}
+        messagePlaceholder={contactFormContext === 'website' ? 'Please describe the changes you would like to make to your website...' : 'Tell us about your project...'}
+        messageLabel={contactFormContext === 'website' ? 'Optional Changes' : 'Message'}
         messageOptional={contactFormContext === 'website'}
       />
     </div>

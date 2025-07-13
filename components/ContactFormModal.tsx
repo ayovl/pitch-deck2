@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { X, Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Loader2, AtSign } from 'lucide-react';
 import { z } from 'zod';
 
 interface ContactFormModalProps {
@@ -232,7 +232,7 @@ const ContactFormModal: React.FC<ContactFormModalProps> = ({
                     {/* Email Field */}
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                        <Mail className="inline w-4 h-4 mr-2 text-purple-400" />
+                        <AtSign className="inline w-4 h-4 mr-2 text-purple-400" />
                         Email
                       </label>
                       <input
