@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
 import { ContactEmailTemplate } from '@/components/ContactEmailTemplate';
-import { WebsiteChangeRequestEmailTemplate } from '@/components/WebsiteChangeRequestEmailTemplate';
 
 // Initialize Resend lazily to avoid build-time errors
 const getResendClient = () => {
@@ -16,8 +15,7 @@ const getResendClient = () => {
 const contactSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name is too long'),
   email: z.string().email('Invalid email address'),
-  message: z.string().min(1, 'Message must be at least 1 character').max(1000, 'Message is too long'),
-  formType: z.enum(['contact', 'website']).optional(),
+  message: z.string().min(10, 'Message must be at least 10 characters').max(1000, 'Message is too long'),
 });
 
 export async function POST(req: NextRequest) {
@@ -38,24 +36,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, email, message, formType } = validation.data;
+    const { name, email, message } = validation.data;
 
     // Check if API key is configured and get Resend client
     try {
       const resend = getResendClient();
       
-      const isWebsiteChangeRequest = formType === 'website';
-
       // Send email using Resend
       const { data, error } = await resend.emails.send({
         from: 'Contact Form <onboarding@resend.dev>', // This will be from your verified domain
         to: ['arsalmaab@gmail.com'],
-        subject: isWebsiteChangeRequest
-          ? `New Website Change Request from ${name}`
-          : `New Contact Form Submission from ${name}`,
-        react: isWebsiteChangeRequest
-          ? WebsiteChangeRequestEmailTemplate({ name, email, message })
-          : ContactEmailTemplate({ name, email, message }),
+        subject: `New Contact Form Submission from ${name}`,
+        react: ContactEmailTemplate({ name, email, message }),
         replyTo: email, // This allows you to reply directly to the sender
       });
 
