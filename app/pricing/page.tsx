@@ -1,32 +1,20 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useCheckout } from '../../components/PaddleProvider';
 import { 
   CheckCircle,
   Star,
-  ArrowRight,
   Shield,
   Award,
   Zap,
   Gift
 } from 'lucide-react';
+import PricingContactFormModal from '../../components/PricingContactFormModal';
 
 export default function PricingPage() {
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    company: '',
-    requests: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  // Initialize Paddle checkout
-  const { openCheckout, isLoaded: paddleLoaded } = useCheckout();
 
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
@@ -42,30 +30,6 @@ export default function PricingPage() {
         staggerChildren: 0.1,
         delayChildren: 0.3
       }
-    }
-  };
-
-  const handleGetStarted = async () => {
-    if (!paddleLoaded) {
-      setError('Payment system is loading. Please wait...');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setError(null);
-
-    try {
-      await openCheckout({
-        fullName: formData.fullName || 'Customer',
-        email: formData.email || '',
-        requests: formData.requests || 'Started from pricing page',
-        company: formData.company || '',
-        phone: '',
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to open checkout');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -234,21 +198,26 @@ export default function PricingPage() {
                 </div>
               </motion.div>
 
-              {/* CTA Button */}
+              {/* CTA Buttons */}
               <motion.div variants={fadeInUp} className="text-center">
-                <button
-                  onClick={handleGetStarted}
-                  className="group relative inline-flex items-center justify-center px-12 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                >
-                  <span className="relative z-10 flex items-center">
-                    Get Started Now
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
-                </button>
-                <p className="text-gray-400 text-sm mt-4">
-                  Ready to get started? Let&#39;s create your winning pitch deck.
-                </p>
+                <div className="flex justify-center space-x-4">
+                  <button
+                    onClick={() => window.open('https://calendly.com/arsalmaab/30min', '_blank')}
+                    className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  >
+                    <span className="relative z-10 flex items-center">
+                      Schedule a Call
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => setIsContactFormOpen(true)}
+                    className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-gray-700 to-gray-800 rounded-full hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  >
+                    <span className="relative z-10 flex items-center">
+                      Email Now
+                    </span>
+                  </button>
+                </div>
               </motion.div>
             </div>
           </motion.div>
@@ -310,51 +279,13 @@ export default function PricingPage() {
             </div>
           </motion.div>
 
-          {/* Final CTA */}
-          <motion.div variants={fadeInUp} className="text-center mt-16">
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-8 border border-blue-500/20">
-              <h2 className="text-3xl font-bold text-white mb-4">Ready to Transform Your Pitch?</h2>
-              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                Join hundreds of successful entrepreneurs and business leaders who&#39;ve used our AI-powered 
-                pitch deck services to win deals and secure funding.
-              </p>
-              <button
-                onClick={handleGetStarted}
-                className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-              >
-                Start Your Project Today
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </button>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
 
-      {/* Contact Form Modal - Placeholder for now */}
-      {isContactFormOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-white mb-4">Get Started</h3>
-            <p className="text-gray-300 mb-6">
-              Ready to create your winning pitch deck? Contact us to begin your project.
-            </p>
-            <div className="flex space-x-4">
-              <button
-                onClick={() => setIsContactFormOpen(false)}
-                className="flex-1 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
-              >
-                Close
-              </button>
-              <a
-                href="mailto:support@vorve.tech?subject=Pitch Deck Project Inquiry"
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-center"
-              >
-                Contact Us
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+      <PricingContactFormModal
+        isOpen={isContactFormOpen}
+        onClose={() => setIsContactFormOpen(false)}
+      />
     </div>
   );
 }
