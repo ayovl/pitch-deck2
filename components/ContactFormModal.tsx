@@ -15,7 +15,6 @@ interface ContactFormModalProps {
   messagePlaceholder?: string;
   messageLabel?: string;
   messageOptional?: boolean;
-  formType?: 'contact' | 'website';
 }
 
 // Base validation schema
@@ -46,8 +45,7 @@ const ContactFormModal: React.FC<ContactFormModalProps> = ({
   subtitle = "Let's discuss your project",
   messagePlaceholder = "Tell me about your project or how I can help you...",
   messageLabel = "Message",
-  messageOptional = false,
-  formType = 'contact'
+  messageOptional = false
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -106,7 +104,7 @@ const ContactFormModal: React.FC<ContactFormModalProps> = ({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formData, formType }),
+        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
