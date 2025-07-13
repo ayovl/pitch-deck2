@@ -1,9 +1,13 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import OptimizedImage from '../components/OptimizedImage';
+import LazyLoad from '../components/LazyLoad';
+import MobileMotion from '../components/MobileMotion';
 import ViewportOptimizer from '../components/ViewportOptimizer';
 import ContactFormModal from '../components/ContactFormModal';
 import { usePerformanceMonitoring, useDeviceOptimization } from '../hooks/usePerformance';
@@ -16,8 +20,10 @@ import {
   ArrowRight,
   X,
   Gift,
-  Phone,
-  Mail,
+  Palette,
+  Type,
+  FileText,  Phone,
+  Mail,  Copy,
   ChevronDown,
   Menu,
   AlertTriangle,
@@ -81,10 +87,18 @@ export default function Home() {
     }
   }), [isClientMobile]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const [showNavBackground, setShowNavBackground] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [viewportHeight, setViewportHeight] = useState('100vh');
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    requests: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false); // Added for loading state
+  const [submissionError, setSubmissionError] = useState<string | null>(null); // Added for error message
 
   // Ref for positioning the contact form modal
   const emailButtonRef = useRef<HTMLButtonElement>(null);
@@ -170,6 +184,43 @@ export default function Home() {
   const [ctaRef, ctaInView] = useOptimizedScrollAnimation(isClientMobile, 0.1);
   const [testimonialRef, testimonialInView] = useOptimizedScrollAnimation(isClientMobile, 0.1);
   const [contactRef, contactInView] = useOptimizedScrollAnimation(isClientMobile, 0.1);
+  const [meetingRef, meetingInView] = useOptimizedScrollAnimation(isClientMobile, 0.1);
+
+  // Memoized form handler
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  }, []);
+
+  // Memoized submit handler with Paddle integration
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmissionError(null);
+
+    try {
+      // Validate form data
+      if (!formData.fullName.trim() || !formData.email.trim()) {
+        setSubmissionError('Please fill in all required fields.');
+        return;
+      }
+
+      // Don't redirect here - Paddle will handle the flow
+      console.log('Paddle checkout opened successfully');
+
+    } catch (error) {
+      console.error('Checkout error:', error);
+      setSubmissionError(
+        error instanceof Error
+          ? error.message
+          : 'Failed to open checkout. Please try again.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [formData]);
 
   // Memoized scroll functions
   const scrollToSection = useCallback((sectionId: string) => {
@@ -992,26 +1043,13 @@ export default function Home() {
               </motion.div>
 
               {/* Enhanced Action Buttons */}
-              <motion.div 
+              <motion.div
                 className="flex flex-col items-center space-y-4"
                 initial={fadeInUp.initial}
                 animate={pricingInView ? fadeInUp.animate : fadeInUp.initial}
                 transition={{ ...fadeInUp.transition, delay: 0.5 }}
-              >                <motion.button
-                  className="group relative bg-gradient-to-r from-[hsl(267,75%,56%)] to-[hsl(267,75%,66%)] hover:from-[hsl(267,75%,66%)] hover:to-[hsl(267,75%,76%)] text-white px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 lg:px-12 lg:py-5 rounded-2xl text-lg font-bold transition-all duration-300 hover:scale-[1.02] hover:shadow-xl border border-[hsl(267,75%,56%)]/50 w-full max-w-sm shadow-lg will-change-transform overflow-hidden"
-                  whileHover={{ y: -2 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  {/* Subtle shimmer effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-                  
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    Get Now
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                  </span>
-                </motion.button>
-
-                <motion.div 
+              >
+                <motion.div
                   className="flex items-center space-x-2 text-xs text-gray-400"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -1021,7 +1059,7 @@ export default function Home() {
                   <span className="font-medium">4-day delivery • Tech support included</span>
                 </motion.div>
 
-                <motion.button 
+                <motion.button
                   onClick={() => scrollToSection('problem')}
                   className="group text-purple-300 hover:text-purple-200 font-medium text-sm flex items-center space-x-2 transition-all duration-200 hover:scale-105 py-3 px-4 rounded-xl hover:bg-white/5 will-change-transform"
                   whileHover={{ y: -1 }}
@@ -1075,6 +1113,7 @@ export default function Home() {
                       }}
                     >
                       <span>Click to copy</span>
+                      <Copy className="w-3 h-3 group-hover:scale-110 transition-transform" />
                     </button>
                   </div>
                 </div>
