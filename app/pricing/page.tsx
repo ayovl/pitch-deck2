@@ -105,150 +105,269 @@ export default function PricingPage() {
           {/* Main Pricing Card */}
           <motion.div
             variants={fadeInUp}
-            className="bg-gradient-to-br from-slate-900/90 via-slate-800/85 to-gray-900/90 backdrop-blur-sm border border-slate-400/40 shadow-2xl px-8 py-12 lg:px-16 lg:py-20 rounded-3xl relative overflow-hidden max-w-5xl mx-auto mb-16"
+            className="relative bg-white/[0.02] backdrop-blur-xl border border-white/10 shadow-2xl px-8 py-12 lg:px-16 lg:py-20 rounded-3xl overflow-hidden max-w-5xl mx-auto mb-16 group hover:shadow-3xl transition-all duration-500"
           >
-            {/* Background Effects */}
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-600/5 via-transparent to-pink-600/5 pointer-events-none"></div>
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-pink-500/10 rounded-full blur-3xl"></div>
+            {/* Professional Background Effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5"></div>
+            <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-purple-400/10 to-pink-400/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+            
+            {/* Popular Badge */}
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-full text-sm font-semibold shadow-lg border border-white/20">
+                <div className="flex items-center space-x-2">
+                  <Star className="w-4 h-4 fill-current" />
+                  <span>Most Popular</span>
+                  <Star className="w-4 h-4 fill-current" />
+                </div>
+              </div>
+            </div>
 
             <div className="relative z-10">
               {/* Header */}
-              <div className="text-center mb-12">
+              <div className="text-center mb-16">
+                <motion.div variants={fadeInUp} className="mb-6">
+                  <span className="inline-block bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    Professional Package
+                  </span>
+                </motion.div>
+                
                 <motion.h2 
                   variants={fadeInUp}
-                  className="text-4xl md:text-5xl font-bold mb-4 text-white"
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight"
                 >
-                  Complete Solution Package
+                  Complete Solution
+                  <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Package
+                  </span>
                 </motion.h2>
+                
                 <motion.p 
                   variants={fadeInUp}
-                  className="text-gray-300 text-lg max-w-2xl mx-auto"
+                  className="text-gray-300 text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed"
                 >
                   Everything you need for professional pitch decks that win deals and secure funding
                 </motion.p>
               </div>
 
-              {/* Pricing */}
-              <motion.div variants={fadeInUp} className="text-center mb-12">
-                <div className="flex items-center justify-center mb-4">
-                  <span className="text-6xl md:text-7xl font-bold text-white">$2,997</span>
-                  <span className="text-gray-400 text-xl ml-2">/project</span>
-                </div>
-                <div className="flex items-center justify-center space-x-4 text-sm text-gray-400">
-                  <div className="flex items-center space-x-1">
-                    <Shield className="w-4 h-4" />
-                    <span>100% Money-back guarantee</span>
-                  </div>
-                  <div className="hidden sm:block w-px h-4 bg-gray-600"></div>
-                  <div className="flex items-center space-x-1">
-                    <Award className="w-4 h-4" />
-                    <span>14-day revision period</span>
+              {/* Enhanced Pricing Section */}
+              <motion.div variants={fadeInUp} className="text-center mb-16">
+                <div className="relative inline-block">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl"></div>
+                  <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 lg:p-12">
+                    <div className="flex items-baseline justify-center mb-4">
+                      <span className="text-2xl text-gray-400 font-medium">$</span>
+                      <span className="text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight">2,997</span>
+                    </div>
+                    <div className="text-gray-400 text-lg mb-6">per project</div>
+                    
+                    {/* Value Proposition */}
+                    <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-xl p-4 mb-6">
+                      <div className="text-green-300 text-sm font-medium mb-1">🎯 Average ROI: 15-50x</div>
+                      <div className="text-gray-300 text-sm">Our clients typically raise $45K-$1.5M</div>
+                    </div>
+                    
+                    {/* Trust Indicators */}
+                    <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
+                      <div className="flex items-center space-x-2">
+                        <Shield className="w-4 h-4 text-green-400" />
+                        <span>100% Money-back guarantee</span>
+                      </div>
+                      <div className="hidden sm:block w-px h-4 bg-gray-600"></div>
+                      <div className="flex items-center space-x-2">
+                        <Award className="w-4 h-4 text-blue-400" />
+                        <span>14-day revision period</span>
+                      </div>
+                      <div className="hidden sm:block w-px h-4 bg-gray-600"></div>
+                      <div className="flex items-center space-x-2">
+                        <Zap className="w-4 h-4 text-yellow-400" />
+                        <span>7-10 day delivery</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
 
-              {/* Features Grid */}
+              {/* Enhanced Features Grid */}
               <motion.div 
                 variants={staggerContainer}
-                className="grid md:grid-cols-2 gap-8 mb-12"
+                className="grid lg:grid-cols-2 gap-12 mb-16"
               >
-                {/* Left Column */}
-                <motion.div variants={fadeInUp} className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6 flex items-center">
-                    <Star className="w-6 h-6 text-yellow-400 mr-3" />
-                    Core Deliverables
-                  </h3>
+                {/* Left Column - Core Deliverables */}
+                <motion.div variants={fadeInUp} className="space-y-8">
+                  <div className="flex items-center mb-8">
+                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-3 rounded-xl mr-4">
+                      <Star className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl lg:text-3xl font-bold text-white">Core Deliverables</h3>
+                  </div>
                   
-                  {[
-                    'Professional 10-15 slide pitch deck',
-                    'AI-optimized content & messaging',
-                    'Custom design & branding',
-                    'Investor-ready financial projections',
-                    'Compelling storytelling framework',
-                    'Multiple format exports (PPT, PDF, Figma)'
-                  ].map((feature, index) => (
-                    <motion.div 
-                      key={index}
-                      variants={fadeInUp}
-                      className="flex items-start space-x-3"
-                    >
-                      <CheckCircle className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-300">{feature}</span>
-                    </motion.div>
-                  ))}
+                  <div className="space-y-5">
+                    {[
+                      { text: 'Professional 10-15 slide pitch deck', highlight: true },
+                      { text: 'AI-optimized content & messaging', highlight: false },
+                      { text: 'Custom design & branding', highlight: false },
+                      { text: 'Investor-ready financial projections', highlight: true },
+                      { text: 'Compelling storytelling framework', highlight: false },
+                      { text: 'Multiple format exports (PPT, PDF, Figma)', highlight: false }
+                    ].map((feature, index) => (
+                      <motion.div 
+                        key={index}
+                        variants={fadeInUp}
+                        className={`flex items-start space-x-4 p-4 rounded-xl transition-all duration-300 ${
+                          feature.highlight 
+                            ? 'bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20' 
+                            : 'hover:bg-white/5'
+                        }`}
+                      >
+                        <div className="flex-shrink-0 mt-0.5">
+                          <CheckCircle className={`w-5 h-5 ${feature.highlight ? 'text-blue-400' : 'text-green-400'}`} />
+                        </div>
+                        <span className={`${feature.highlight ? 'text-white font-medium' : 'text-gray-300'} leading-relaxed`}>
+                          {feature.text}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
                 </motion.div>
 
-                {/* Right Column */}
-                <motion.div variants={fadeInUp} className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6 flex items-center">
-                    <Zap className="w-6 h-6 text-blue-400 mr-3" />
-                    Bonus Services
-                  </h3>
+                {/* Right Column - Bonus Services */}
+                <motion.div variants={fadeInUp} className="space-y-8">
+                  <div className="flex items-center mb-8">
+                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-xl mr-4">
+                      <Gift className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl lg:text-3xl font-bold text-white">Bonus Services</h3>
+                  </div>
                   
-                  {[
-                    'Market research & competitive analysis',
-                    'Industry-specific templates library',
-                    'Presentation coaching session (1 hour)',
-                    'LinkedIn optimization recommendations',
-                    '30-day email support',
-                    'Future update templates'
-                  ].map((feature, index) => (
-                    <motion.div 
-                      key={index}
-                      variants={fadeInUp}
-                      className="flex items-start space-x-3"
-                    >
-                      <CheckCircle className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-300">{feature}</span>
-                    </motion.div>
-                  ))}
+                  <div className="space-y-5">
+                    {[
+                      { text: 'Market research & competitive analysis', value: '$500' },
+                      { text: 'Industry-specific templates library', value: '$300' },
+                      { text: 'Presentation coaching session (1 hour)', value: '$200' },
+                      { text: 'LinkedIn optimization recommendations', value: '$150' },
+                      { text: '30-day email support', value: '$200' },
+                      { text: 'Future update templates', value: '$250' }
+                    ].map((feature, index) => (
+                      <motion.div 
+                        key={index}
+                        variants={fadeInUp}
+                        className="flex items-start justify-between p-4 rounded-xl hover:bg-white/5 transition-all duration-300 group"
+                      >
+                        <div className="flex items-start space-x-4">
+                          <CheckCircle className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300 leading-relaxed group-hover:text-white transition-colors">
+                            {feature.text}
+                          </span>
+                        </div>
+                        <span className="text-xs text-gray-500 bg-gray-800/50 px-2 py-1 rounded-full ml-4 flex-shrink-0">
+                          {feature.value}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                  
+                  {/* Total Value */}
+                  <div className="mt-8 p-4 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-xl">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-400 mb-1">Total Bonus Value</div>
+                      <div className="text-2xl font-bold text-white">$1,600</div>
+                      <div className="text-xs text-purple-300">Included at no extra cost</div>
+                    </div>
+                  </div>
                 </motion.div>
               </motion.div>
 
-              {/* Process Timeline */}
-              <motion.div variants={fadeInUp} className="mb-12">
-                <h3 className="text-2xl font-semibold text-white mb-8 text-center">Delivery Timeline</h3>
-                <div className="grid sm:grid-cols-3 gap-6">
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-white font-bold">1</span>
+              {/* Enhanced Process Timeline */}
+              <motion.div variants={fadeInUp} className="mb-16">
+                <h3 className="text-3xl font-bold text-white mb-12 text-center">
+                  Our Proven <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Process</span>
+                </h3>
+                
+                <div className="grid sm:grid-cols-3 gap-8">
+                  {[
+                    {
+                      step: 1,
+                      title: "Discovery & Strategy",
+                      description: "Deep-dive consultation to understand your goals, audience, and unique value proposition",
+                      duration: "1-2 days",
+                      color: "from-blue-500 to-cyan-500"
+                    },
+                    {
+                      step: 2,
+                      title: "AI-Powered Creation",
+                      description: "Advanced AI content generation combined with expert design and market research",
+                      duration: "5-7 days",
+                      color: "from-purple-500 to-pink-500"
+                    },
+                    {
+                      step: 3,
+                      title: "Refinement & Delivery",
+                      description: "Professional review, revisions, and coaching to ensure maximum impact",
+                      duration: "2-3 days",
+                      color: "from-green-500 to-emerald-500"
+                    }
+                  ].map((phase, index) => (
+                    <div key={index} className="text-center group">
+                      <div className="relative mb-6">
+                        <div className={`w-16 h-16 bg-gradient-to-br ${phase.color} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                          <span className="text-white font-bold text-xl">{phase.step}</span>
+                        </div>
+                        {index < 2 && (
+                          <div className="hidden sm:block absolute top-8 left-[calc(100%+1rem)] w-8 h-0.5 bg-gradient-to-r from-gray-600 to-gray-700"></div>
+                        )}
+                      </div>
+                      <h4 className="font-bold text-white mb-3 text-lg">{phase.title}</h4>
+                      <p className="text-gray-400 text-sm leading-relaxed mb-3">{phase.description}</p>
+                      <div className="inline-block bg-gray-800/50 border border-gray-700 text-gray-300 px-3 py-1 rounded-full text-xs">
+                        {phase.duration}
+                      </div>
                     </div>
-                    <h4 className="font-semibold text-white mb-2">Discovery</h4>
-                    <p className="text-gray-400 text-sm">Initial consultation & requirements gathering (1-2 days)</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-white font-bold">2</span>
-                    </div>
-                    <h4 className="font-semibold text-white mb-2">Creation</h4>
-                    <p className="text-gray-400 text-sm">AI-powered content creation & design (5-7 days)</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-white font-bold">3</span>
-                    </div>
-                    <h4 className="font-semibold text-white mb-2">Delivery</h4>
-                    <p className="text-gray-400 text-sm">Final presentation & revisions (2-3 days)</p>
-                  </div>
+                  ))}
                 </div>
               </motion.div>
 
-              {/* CTA Button */}
+              {/* Enhanced CTA Section */}
               <motion.div variants={fadeInUp} className="text-center">
-                <button
-                  onClick={handleGetStarted}
-                  className="group relative inline-flex items-center justify-center px-12 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                >
-                  <span className="relative z-10 flex items-center">
-                    Get Started Now
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
-                </button>
-                <p className="text-gray-400 text-sm mt-4">
-                  Ready to get started? Let&#39;s create your winning pitch deck.
-                </p>
+                <div className="relative inline-block">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full blur-xl"></div>
+                  <button
+                    onClick={handleGetStarted}
+                    disabled={isSubmitting}
+                    className="relative group inline-flex items-center justify-center px-12 py-5 text-xl font-bold text-white bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-full hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 transition-all duration-500 transform hover:scale-105 shadow-2xl hover:shadow-3xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <span className="relative z-10 flex items-center">
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3"></div>
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          Get Started Now
+                          <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
+                        </>
+                      )}
+                    </span>
+                  </button>
+                </div>
+                
+                <div className="mt-6 space-y-2">
+                  <p className="text-gray-300 text-lg font-medium">
+                    Ready to transform your pitch? Let's create your winning deck.
+                  </p>
+                  <div className="flex items-center justify-center space-x-6 text-sm text-gray-400">
+                    <span>✓ No setup fees</span>
+                    <span>✓ Cancel anytime</span>
+                    <span>✓ Fast delivery</span>
+                  </div>
+                </div>
+                
+                {error && (
+                  <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-300 text-sm">
+                    {error}
+                  </div>
+                )}
               </motion.div>
             </div>
           </motion.div>
