@@ -384,8 +384,8 @@ export default function Home() {
             initial={fadeInUp.initial}
             animate={problemInView ? fadeInUp.animate : fadeInUp.initial}
             transition={fadeInUp.transition}          >
-            The Problem with <br className="sm:hidden" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 text-2xl md:text-3xl lg:text-4xl break-all">website</span>
+            The Problem With Your <br className="sm:hidden" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 text-2xl md:text-3xl lg:text-4xl break-all">Website</span>
           </motion.h2><motion.div 
             className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto"
             initial={staggerContainer.initial}
